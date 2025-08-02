@@ -1,0 +1,11 @@
+{
+	"dataset": "cifar", 
+	"clients": 50, 
+	"existing_steup": true,
+	"edge_servers" :5, 
+	"overlap_percentage": 50, 
+	"big_lambda": 0.5, 
+	"lamda": 0.2, 
+	"alpha":0.4,
+	"NonIID": 1
+}
