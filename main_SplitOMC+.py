@@ -63,7 +63,7 @@ def main(args):
     losses = {c:[] for c in clients_to_servers}
     
     ethrange = [0.8] 
-    ood_ratios = [0,20.2, 0.8]
+    ood_ratios = [0.2, 0.8]
     ethrange = []
     ood_ratios = []
     all_results = {'round': [], 
