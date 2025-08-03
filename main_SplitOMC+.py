@@ -9,21 +9,20 @@ import json
 import time
 import csv
 from tqdm import tqdm
-from EdgeServer import EdgeServer
-from Client import Client
 import numpy as np
 from DataLoader import loader
 import pandas as pd
 from DataManager import get_dataset,to_data_loader, plot_class_distribution, client_data_info
 from types import SimpleNamespace
-from Client import Client
-from CreateZones import create_clusters, plot_venn, plot_venn_clients, create_clusters_random, create_clusters_seq
 
 from torch.utils.data import DataLoader, Dataset
 from collections import Counter
+
+from Client import Client
+from EdgeServer import EdgeServer
 from DataManager import DatasetManager, DatasetManagerDD
-from Tester import test_during_training, test_end_training
 from Network import NetworkAggregation
+from CreateZones import create_clusters, plot_venn, plot_venn_clients, create_clusters_random, create_clusters_seq
 
 def setup_clients_servers(clients_to_servers, servers_to_clients, clients_objects, server_objects):
     for i in servers_to_clients:
@@ -37,7 +36,7 @@ def setup_clients_servers(clients_to_servers, servers_to_clients, clients_object
 
 def main(args):
     clients = {}
-    clients_to_servers, servers_to_clients = create_clusters_random(args.clients, args.edge_servers, args.overlap_percentage, args.existing_steup, args)
+    clients_to_servers, servers_to_clients = create_clusters(args.clients, args.edge_servers, args.overlap_percentage, args.existing_steup, args)
     if(args.NonIID==1):
         DM = DatasetManager
     else:
@@ -119,7 +118,7 @@ def main(args):
                             for client in es.clients:
                                 if client.client_id not in done:
                                     done.append(client.client_id)
-                                    accuracy, client_accuracy, server_accuracy, task_exit_accuracies, sample_dist = client.tester.test_during_training_OOD_OSS_ratio(eth, ood_r, all_selected_classes)
+                                    accuracy, client_accuracy, server_accuracy, task_exit_accuracies, sample_dist = client.evaluator.evaluate(eth, ood_r, all_selected_classes)
                                     client_main.append(task_exit_accuracies['main']['client'])
                                     client_ood.append(task_exit_accuracies['ood']['client'])
                                     client_oos.append(task_exit_accuracies['oos']['client'])

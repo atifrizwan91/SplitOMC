@@ -69,7 +69,7 @@ def create_clusters_seq(num_clients, num_edge_servers, percentage):
     return clients_to_edge_servers, edge_servers_to_clients
 
 
-def create_clusters_random(num_clients, num_edge_servers, percentage, preload, args):
+def create_clusters(num_clients, num_edge_servers, percentage, preload, args):
     if(preload):
         print('** Predefined Cluster Usage **')
         with open(f'Exp Conf Data: {args.dataset} Overlap: {args.overlap_percentage} Concentration: {args.alpha}.json', 'r') as json_file:
@@ -128,8 +128,6 @@ def plot_venn_clients(clients_to_edge_servers):
     venn = venn3([edge_server_1_clients, edge_server_2_clients, edge_server_3_clients], 
                  set_labels=('Edge Server 1', 'Edge Server 2', 'Edge Server 3'))
     
-    # Annotate the Venn diagram with client IDs
-    # Here's a simple way to access and modify the labels for each subset in the Venn diagram
     for text in venn.set_labels:
         text.set_fontsize(16)
     for text in venn.subset_labels:
@@ -144,7 +142,6 @@ def plot_venn_clients(clients_to_edge_servers):
 
     
 if __name__ == "__main__":
-# Print out the clusters
     clients_to_edge_servers, edge_servers_to_clients = create_clusters(50,5)
     for client, edge_servers in clients_to_edge_servers.items():
         print(f"Client {client}: Edge Servers {edge_servers}")
@@ -154,8 +151,4 @@ if __name__ == "__main__":
         
     plot_venn(clients_to_edge_servers, edge_servers_to_clients)
     
-    # Assuming the distribution from the previous step, I'll create a mock distribution.
-    # This is a simplified example for demonstration purposes.
-    
-    # Initialize sets for each edge server
     

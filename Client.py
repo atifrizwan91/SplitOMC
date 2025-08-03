@@ -25,7 +25,7 @@ from types import SimpleNamespace
 from DataLoader import loader
 
 from Models import select_model
-from Tester import Tester
+from Evaluator import Evaluator
 
 class Client:
     def __init__(self, client_id, data_loader, test_data, lamda, args):
@@ -36,7 +36,7 @@ class Client:
         self.test_data = test_data
         self.client_model, self.server_model = select_model(args.dataset)
         self.criterion = nn.CrossEntropyLoss().to(self.device)
-        self.tester = Tester(copy.deepcopy(self.train_loader), copy.deepcopy(self.test_data), self)
+        self.evaluator = Evaluator(copy.deepcopy(self.train_loader), copy.deepcopy(self.test_data), self)
 
     def set_eservers(self, edge_servers):
         self.edge_servers = edge_servers
@@ -44,12 +44,6 @@ class Client:
         self.server_models = {}
         for es in edge_servers: #need ID here
             self.server_models[es.es_id] = copy.deepcopy(self.server_model)
-    
-    def get_configuration(self):
-        with open('config.json') as json_file:
-            conf = json.load(json_file)
-        conf = SimpleNamespace(**conf)
-        return conf
     
     def set_scope(self):
         scope = []
@@ -134,12 +128,9 @@ class Client:
         if len(self.edge_servers) == 1:
             return self.edge_servers[0].clients_avg_weights
         clients_weights, server_weights = [], []
-        
         for es in self.edge_servers:
             clients_weights.append(es.clients_avg_weights)
-            # server_weights.append(es.server_avg_weights)
         aggregated_cross_server_clients = self.average_weights(clients_weights)
-        # aggregated_edgeservers = self.average_weights(server_weights)
         return aggregated_cross_server_clients
         
     def average_weights(self, w):
@@ -149,13 +140,3 @@ class Client:
                 w_avg[key] += w[i][key]
             w_avg[key] = torch.div(w_avg[key], len(w))
         return w_avg
-    
-    def train_model(self, r):
-        loss = self.train_cnn()
-        self.save_model(r)
-        return loss
-        
-
-
-# c = Client(1)
-# c.start_FL()

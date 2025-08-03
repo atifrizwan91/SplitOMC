@@ -9,22 +9,21 @@ import json
 import time
 import csv
 from tqdm import tqdm
-from EdgeServer import EdgeServer
+
 from Client import Client
 import numpy as np
 from DataLoader import loader
 import pandas as pd
 from DataManager import get_dataset,to_data_loader, plot_class_distribution, client_data_info
 from types import SimpleNamespace
-from Client import Client
-from CreateZones import create_clusters, plot_venn, plot_venn_clients, create_clusters_random, create_clusters_seq
 
 from torch.utils.data import DataLoader, Dataset
 from collections import Counter
-from DataManager import DatasetManager, DatasetManagerDD
 
-ddistribution = 'DD'
-from Tester import test_during_training, test_end_training
+from Client import Client
+from EdgeServer import EdgeServer
+from DataManager import DatasetManager, DatasetManagerDD
+from CreateZones import create_clusters, plot_venn, plot_venn_clients, create_clusters_random, create_clusters_seq
 
 def setup_clients_servers(clients_to_servers, servers_to_clients, clients_objects, server_objects):
     for i in servers_to_clients:
@@ -38,7 +37,7 @@ def setup_clients_servers(clients_to_servers, servers_to_clients, clients_object
 
 def main(args):
     clients = {}
-    clients_to_servers, servers_to_clients = create_clusters_random(args.clients, args.edge_servers, args.overlap_percentage, args.existing_steup, args)
+    clients_to_servers, servers_to_clients = create_clusters(args.clients, args.edge_servers, args.overlap_percentage, args.existing_steup, args)
     if(args.NonIID==1):
         DM = DatasetManager
     else:
@@ -64,7 +63,7 @@ def main(args):
     losses = {c:[] for c in clients_to_servers}
     
     ethrange = [0.8] 
-    ood_ratios = [0,20.2, 0.8]
+    oop_ratios = [0,20.2, 0.8]
     ethrange = []
     ood_ratios = []
     all_results = {'round': [], 
@@ -78,8 +77,8 @@ def main(args):
                      'server_ood': [],
                      'server_oos' : [],
                      'entropy': [],
-                     'OOD_Ratio': [], 
-                     'OOS_Ratio':[],
+                     'OOP_Ratio': [], 
+                     'OOR_Ratio':[],
                      'num_of_client_side': [], 
                      'num_of_server_side':[], 
                      'total_main':[], 
@@ -104,9 +103,9 @@ def main(args):
         
         if(r>297):
             ethrange = [0.05, 0.1, 0.2, 0.4, 0.8, 1.2, 1.6, 2.0, 2.3]
-            ood_ratios = [0.1 * i for i in range(11)]
+            oop_ratios = [0.1 * i for i in range(11)]
         for eth in ethrange:
-                for ood_r in ood_ratios:
+                for oop_r in oop_ratios:
                         done = []
                         accuracies_clients = []
                         client_main, client_ood, client_oos = [],[],[]
@@ -117,7 +116,7 @@ def main(args):
                             for client in es.clients:
                                 if client.client_id not in done:
                                     done.append(client.client_id)
-                                    accuracy, client_accuracy, server_accuracy, task_exit_accuracies, sample_dist = client.tester.test_during_training_OOD_OSS_ratio(eth, ood_r, all_selected_classes)
+                                    accuracy, client_accuracy, server_accuracy, task_exit_accuracies, sample_dist = client.evaluator.evaluate(eth, oop_r, all_selected_classes)
                                     client_main.append(task_exit_accuracies['main']['client'])
                                     client_ood.append(task_exit_accuracies['ood']['client'])
                                     client_oos.append(task_exit_accuracies['oos']['client'])
@@ -147,8 +146,8 @@ def main(args):
                         all_results['server_oos'].append(sum(server_oos)/len(server_oos))
                         
                         all_results['entropy'].append(eth)
-                        all_results['OOD_Ratio'].append(ood_r)
-                        all_results['OOS_Ratio'].append(ood_r*0.3)
+                        all_results['OOP_Ratio'].append(oop_r)
+                        all_results['OOR_Ratio'].append(oop_r*0.3)
                         df = pd.DataFrame(all_results)
                         # print('-'*100)
                         # print('Ratio: ',str(ood_r), ' Accuracy: ', sum(accuracies_clients)/len(accuracies_clients))

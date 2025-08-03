@@ -9,12 +9,6 @@ from torch import nn
 import torch.nn.functional as F
 
 import torchvision.models as models
-def model_size_in_bits(model: torch.nn.Module) -> int:
-    total_bits = 0
-    
-    for param in model.parameters():
-        total_bits += param.numel() * param.element_size() * 8  # numel gives the number of elements, element_size gives the size of each element in bytes        
-    return total_bits,
 
 
     
@@ -78,8 +72,17 @@ class AlexNetSMnist(nn.Module):
         return out, reps
 
 
-
+class Exit(nn.Module):
+    def __init__(self, width_mult=1):
+        super(Exit, self).__init__()
+        self.exit_fc = nn.Linear(256*3*3, 10)
     
+    def forward(self, x):
+        exit_out = self.exit_fc(x)
+        return exit_out
+        
+        
+        
 class AlexNetCifarC(nn.Module):
     def __init__(self, c=10, width_mult=1):
         super(AlexNetCifarC, self).__init__()
@@ -181,7 +184,7 @@ class ServerModel_cifar100(nn.Module):
 
 
 def select_model(model_name):
-    if model_name == 'cifar' :
+    if model_name == 'cifar10' :
         client_model = AlexNetCifarC(10)
         server_model = AlexNetCifarS(10)
     
@@ -195,5 +198,3 @@ def select_model(model_name):
         
     return client_model, server_model
 
-if __name__ == '__main__':
-    print(model_size_in_bits(AlexNetCifarS()))

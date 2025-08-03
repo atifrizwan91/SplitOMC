@@ -66,8 +66,8 @@ class DatasetManagerDD:
                                            transform=apply_transform)
             self.test_dataset = datasets.MNIST(data_dir, train=False, download=True,
                                           transform=apply_transform)  
-        if self.data_name == 'cifar':
-            data_dir = '../data/cifar'
+        if self.data_name == 'cifar10':
+            data_dir = '../data/cifar10'
             self.train_dataset = datasets.CIFAR10(data_dir, train=True, download=True,
                                            transform=apply_transform)
             self.test_dataset = datasets.CIFAR10(data_dir, train=False, download=True,
@@ -201,7 +201,7 @@ class DatasetManagerDD:
             return self.train_dataset, self.test_dataset, self.zone_scope_noniid_data(overlap_percentage)
         
 class DatasetManager:
-    def __init__(self, data_name, server_to_clients, clients_to_server, num_clients, preload):
+    def __init__(self, data_name, server_to_clients, clients_to_server, num_clients, preload, alpha = None):
         self.data_name = data_name
         self.preload = preload
         self.server_to_clients = server_to_clients
@@ -223,8 +223,8 @@ class DatasetManager:
                                            transform=apply_transform)
             self.test_dataset = datasets.MNIST(data_dir, train=False, download=True,
                                           transform=apply_transform)  
-        if self.data_name == 'cifar':
-            data_dir = '../data/cifar'
+        if self.data_name == 'cifar10':
+            data_dir = '../data/cifar10'
             self.train_dataset = datasets.CIFAR10(data_dir, train=True, download=True,
                                            transform=apply_transform)
             self.test_dataset = datasets.CIFAR10(data_dir, train=False, download=True,

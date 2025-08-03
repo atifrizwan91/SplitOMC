@@ -1,5 +1,5 @@
 {
-	"dataset": "cifar", 
+	"dataset": "cifar10", 
 	"clients": 50, 
 	"existing_steup": true,
 	"edge_servers" :5, 
