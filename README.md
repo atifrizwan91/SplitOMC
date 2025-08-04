@@ -1,4 +1,4 @@
-# SplitOMC: Efficient Split Learning with Overlapping Areas
+# Efficient Split Learning with Overlapping Areas: Handling Distribution Shift in Multi-Cell Networks
 
 This repository contains the implementation of **SplitOMC**, a framework for efficient split learning in multi-cell wireless networks that handles distribution shifts. The code is based on the paper:
 
