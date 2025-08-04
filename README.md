@@ -89,13 +89,5 @@ Results are saved as CSV files, e.g., `Alpha: 0.4 Lambda: 0.2 Overlapping: 50_Da
 
 ## Citation
 
-If you use this code, please cite:
+If you use this code, please cite: Will be updated after publication
 
-```
-@article{rizwan2025efficient,
-  title={Efficient Split Learning with Overlapping Areas: Handling Distribution Shift in Multi-Cell Networks},
-  author={Rizwan, Ati and Han, Dong-Jun and Pervej, Md Ferdous and Brinton, Christopher G and Molisch, Andreas F and Choi, Minseok},
-  journal={},  % Update with actual details
-  year={2025}
-}
-```
