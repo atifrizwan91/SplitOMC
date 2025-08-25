@@ -131,8 +131,10 @@ class Evaluator:
                 server_outputs = []
                 for es in server_models:
                     output_server, _ = es(representations.to(self.client.device))
-                    
-                _, server_predictions = torch.max(output_server, 1)
+                    server_outputs.append(output_server)
+
+                server_outputs = sum(server_outputs) / len(server_outputs)
+                _, server_predictions = torch.max(server_outputs, 1)
                 
                 output[server_side_idx] = output_server[server_side_idx]
                 
