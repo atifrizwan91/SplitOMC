@@ -12,9 +12,9 @@ from tqdm import tqdm
 
 from Client import Client
 import numpy as np
-from DataLoader import loader
+# from DataLoader import loader
 import pandas as pd
-from DataManager import get_dataset,to_data_loader, plot_class_distribution, client_data_info
+from DataManager import to_data_loader
 from types import SimpleNamespace
 
 from torch.utils.data import DataLoader, Dataset
@@ -23,7 +23,7 @@ from collections import Counter
 from Client import Client
 from EdgeServer import EdgeServer
 from DataManager import DatasetManager, DatasetManagerDD
-from CreateZones import create_clusters, plot_venn, plot_venn_clients, create_clusters_random, create_clusters_seq
+from CreateZones import create_clusters, plot_venn, plot_venn_clients, create_clusters_seq
 
 def setup_clients_servers(clients_to_servers, servers_to_clients, clients_objects, server_objects):
     for i in servers_to_clients:

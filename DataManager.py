@@ -12,7 +12,7 @@ import numpy as np
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, Dataset
 from collections import Counter
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 class DatasetSplit(Dataset):
     def __init__(self, dataset, idxs):

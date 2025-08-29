@@ -10,8 +10,8 @@ import torch
 import copy
 from torch.nn import functional as F
 from torch.utils.data import DataLoader, Dataset
-from sklearn.metrics import precision_score
-from DataManager import client_data_info
+# from sklearn.metrics import precision_score
+# from DataManager import client_data_info
 from Models import select_model
 import torch.nn as nn
 
