@@ -7,5 +7,6 @@
 	"big_lambda": 0.5, 
 	"lamda": 0.2, 
 	"alpha":0.4,
-	"NonIID": 1
+	"NonIID": 1,
+	"device": "cuda:2"
 }

@@ -1,7 +1,7 @@
 
 import os
 import re
-import pandas as pd
+# import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import json
@@ -30,7 +30,7 @@ from Evaluator import Evaluator
 class Client:
     def __init__(self, client_id, data_loader, test_data, lamda, args):
         self.client_id = client_id
-        self.device = 'cuda:1'
+        self.device = args.device
         self.lamda = lamda
         self.train_loader, self.val_loader = data_loader[0], data_loader[1]
         self.test_data = test_data
@@ -68,7 +68,7 @@ class Client:
         server_optimizers = {}
         for es in self.server_models:
             server_optimizer = torch.optim.SGD(self.server_model.parameters(), lr=0.01, weight_decay=1e-4)
-            server_optimizers[es] = server_optimizer
+            server_optimizers[es] = copy.deepcopy(server_optimizer)
         # if r != 1:
         #     self.update_local_model()
         for epoch in range(5):

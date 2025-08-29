@@ -129,6 +129,7 @@ def main(args):
                                     server_all.append(server_accuracy)
                                     
                                     accuracies_clients.append(accuracy)
+                                    
                         all_results['round'].append(r)
                         all_results['accuracy'].append(sum(accuracies_clients)/len(accuracies_clients))
                         samples_dist_ids = ['num_of_client_side', 'num_of_server_side', 'total_main', 'total_ood', 'total_oos', 'client_total_main', 'client_total_ood', 'client_total_oos', 'server_total_main', 'server_total_ood', 'server_total_oos']
