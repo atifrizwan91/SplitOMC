@@ -139,6 +139,9 @@ def main(args):
                             all_results[i].append(val)
                         all_results['client_all'].append(sum(client_all)/len(client_all))
                         all_results['server_all'].append(sum(server_all)/len(server_all))
+                        print(f'Client: \n main: {sum(client_main)/len(client_main)}, oop: {sum(client_ood)/len(client_ood)}, oor: {sum(client_oos)/len(client_oos)}')
+                        print(f'Server: \n main: {sum(server_main)/len(server_main)}, oop: {sum(server_ood)/len(server_ood)}, oor: {sum(server_oos)/len(server_oos)}')
+                        
                         all_results['client_main'].append(sum(client_main)/len(client_main))
                         all_results['client_ood'].append(sum(client_ood)/len(client_ood))
                         all_results['client_oos'].append(sum(client_oos)/len(client_oos))

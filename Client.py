@@ -67,7 +67,7 @@ class Client:
         client_optimizer = torch.optim.SGD(self.client_model.parameters(), lr=0.01, weight_decay=1e-4)
         server_optimizers = {}
         for es in self.server_models:
-            server_optimizer = torch.optim.SGD(self.server_model.parameters(), lr=0.01, weight_decay=1e-4)
+            server_optimizer = torch.optim.SGD(self.server_models[es].parameters(), lr=0.01, weight_decay=1e-4)
             server_optimizers[es] = copy.deepcopy(server_optimizer)
         # if r != 1:
         #     self.update_local_model()

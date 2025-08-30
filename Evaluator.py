@@ -80,8 +80,6 @@ class Evaluator:
     def evaluate(self, eth, oop_ratio, all_selected_classes):
         client_model = copy.deepcopy(self.client.client_model)
         
-        
-        
         testloader_data = self.get_ratio_based_data(oop_ratio, all_selected_classes)
         testloader = DataLoader(testloader_data, batch_size=128, shuffle=False)
         
